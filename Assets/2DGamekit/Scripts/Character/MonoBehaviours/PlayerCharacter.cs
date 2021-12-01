@@ -534,7 +534,8 @@ namespace Gamekit2D
         {
             if (!PlayerInput.Instance.Jump.Held && m_MoveVector.y > 0.0f)
             {
-                m_MoveVector.y -= jumpAbortSpeedReduction * Time.deltaTime;
+                //Debug.Log($"Move vector.y: {m_MoveVector.y}");
+                m_MoveVector.y -= jumpAbortSpeedReduction * Time.deltaTime; //уменьшает высоту прыжка, если кнопка НАЖАТА, а не ЗАЖАТА
             }
         }
 
@@ -559,6 +560,7 @@ namespace Gamekit2D
                 m_MoveVector.y = 0f;
             }
             m_MoveVector.y -= gravity * Time.deltaTime;
+            //Debug.Log("AirborneVerticalMovement"); код выше отвечает за гравитацию при падении
         }
 
         public bool CheckForJumpInput()

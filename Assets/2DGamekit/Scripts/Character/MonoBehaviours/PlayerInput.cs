@@ -60,6 +60,7 @@ namespace Gamekit2D
             MeleeAttack.Get(fixedUpdateHappened, inputType);
             RangedAttack.Get(fixedUpdateHappened, inputType);
             Jump.Get(fixedUpdateHappened, inputType);
+            //Debug.Log($"Jump enabled:{Jump.Enabled}|Jump down:{Jump.Down}|Jump held:{Jump.Held}|Jump up:{Jump.Up}");
             Horizontal.Get(inputType);
             Vertical.Get(inputType);
 
