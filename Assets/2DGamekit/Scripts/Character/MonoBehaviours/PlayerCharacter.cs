@@ -337,6 +337,8 @@ namespace Gamekit2D
         public void SetMoveVector(Vector2 newMoveVector)
         {
             m_MoveVector = newMoveVector;
+            // вызывается при смерти и других перемещениях персонажа
+            //Debug.Log($"New move vector:{newMoveVector}|Move vector:{m_MoveVector}");
         }
 
         public void SetHorizontalMovement(float newHorizontalMovement)
