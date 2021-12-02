@@ -36,6 +36,7 @@ namespace Gamekit2D
         public float gravity = 50f;
         public float jumpSpeed = 20f;
         public float jumpAbortSpeedReduction = 100f;
+        public bool haveSecondJump = false; //для второго прыжка
 
         [Range(k_MinHurtJumpAngle, k_MaxHurtJumpAngle)] public float hurtJumpAngle = 45f;
         public float hurtJumpSpeed = 5f;
@@ -201,7 +202,7 @@ namespace Gamekit2D
 
         void FixedUpdate()
         { 
-            m_CharacterController2D.Move(m_MoveVector * Time.deltaTime);
+            m_CharacterController2D.Move(m_MoveVector * Time.deltaTime);// движение происходит здесь
             m_Animator.SetFloat(m_HashHorizontalSpeedPara, m_MoveVector.x);
             m_Animator.SetFloat(m_HashVerticalSpeedPara, m_MoveVector.y);
             UpdateBulletSpawnPointPositions();
@@ -434,25 +435,43 @@ namespace Gamekit2D
             m_Animator.SetBool(m_HashCrouchingPara, PlayerInput.Instance.Vertical.Value < 0f);
         }
 
+        /// <summary>
+        /// Метод проверяет приземлился ли персонаж, от него зависит считывание падения и второй прыжок
+        /// </summary>
+        /// <returns>Результат в виде bool значения</returns>
         public bool CheckForGrounded()
         {
             bool wasGrounded = m_Animator.GetBool(m_HashGroundedPara);
             bool grounded = m_CharacterController2D.IsGrounded;
+            //Debug.Log($"Grounded:{grounded}");
 
             if (grounded)
             {
                 FindCurrentSurface();
 
                 if (!wasGrounded && m_MoveVector.y < -1.0f)
-                {//only play the landing sound if falling "fast" enough (avoid small bump playing the landing sound)
+                {
+                    // only play the landing sound if falling "fast" enough (avoid small bump playing the landing sound)
                     landingAudioPlayer.PlayRandomSound(m_CurrentSurface);
                 }
+                haveSecondJump = true;
             }
             else
+            {
+                // блок, отвечающий за второй прыжок
+                if (haveSecondJump)
+                {
+                    if (PlayerInput.Instance.Jump.Down)
+                    {
+                        SetVerticalMovement(jumpSpeed);
+                        haveSecondJump = false;
+                    }
+                }
+                // работает при двойном быстром нажатии
                 m_CurrentSurface = null;
+            }
 
             m_Animator.SetBool(m_HashGroundedPara, grounded);
-
             return grounded;
         }
 
@@ -565,6 +584,10 @@ namespace Gamekit2D
             //Debug.Log("AirborneVerticalMovement"); код выше отвечает за гравитацию при падении
         }
 
+        /// <summary>
+        /// Принимает инпут о нажатии кнопки прыжка
+        /// </summary>
+        /// <returns>bool значение, была ли нажата кнопка</returns>
         public bool CheckForJumpInput()
         {
             return PlayerInput.Instance.Jump.Down;

@@ -160,6 +160,7 @@ namespace Gamekit2D
 
                 bool meleeAttackEnabled = GUILayout.Toggle(MeleeAttack.Enabled, "Enable Melee Attack");
                 bool rangeAttackEnabled = GUILayout.Toggle(RangedAttack.Enabled, "Enable Range Attack");
+                bool secondJumpEnabled = GUILayout.Toggle(PlayerCharacter.PlayerInstance.haveSecondJump, "Enable Second Jump");
 
                 if (meleeAttackEnabled != MeleeAttack.Enabled)
                 {
@@ -175,6 +176,15 @@ namespace Gamekit2D
                         RangedAttack.Enable();
                     else
                         RangedAttack.Disable();
+                }
+
+                if (secondJumpEnabled != PlayerCharacter.PlayerInstance.haveSecondJump)
+                {
+                    if (secondJumpEnabled)
+                        PlayerCharacter.PlayerInstance.haveSecondJump = true;
+                    else
+                        PlayerCharacter.PlayerInstance.haveSecondJump = false;
+
                 }
                 GUILayout.EndVertical();
                 GUILayout.EndArea();

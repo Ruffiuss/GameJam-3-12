@@ -139,6 +139,7 @@ namespace Gamekit2D
             for (int i = 0; i < m_RaycastPositions.Length; i++)
             {
                 int count = Physics2D.Raycast(m_RaycastPositions[i], raycastDirection, m_ContactFilter, m_HitBuffer, raycastDistance);
+                Debug.DrawRay(m_RaycastPositions[i], raycastDirection, Color.red);
 
                 if (bottom)
                 {
