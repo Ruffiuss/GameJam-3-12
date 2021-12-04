@@ -16,8 +16,9 @@ namespace Gamekit2D
 
         public InputButton Pause = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu);
         public InputButton Interact = new InputButton(KeyCode.E, XboxControllerButtons.Y);
-        public InputButton MeleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X);
-        public InputButton RangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B);
+        public InputButton MeleeAttack = new InputButton(KeyCode.Mouse0, XboxControllerButtons.X);
+        public InputButton RangedAttack = new InputButton(KeyCode.Mouse1, XboxControllerButtons.B);
+        public InputButton AstralCopy = new InputButton(KeyCode.LeftControl, XboxControllerButtons.LeftBumper);
         public InputButton Jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
         public InputAxis Horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
         public InputAxis Vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
@@ -59,6 +60,7 @@ namespace Gamekit2D
             Interact.Get(fixedUpdateHappened, inputType);
             MeleeAttack.Get(fixedUpdateHappened, inputType);
             RangedAttack.Get(fixedUpdateHappened, inputType);
+            AstralCopy.Get(fixedUpdateHappened, inputType);
             Jump.Get(fixedUpdateHappened, inputType);
             Horizontal.Get(inputType);
             Vertical.Get(inputType);
@@ -77,6 +79,7 @@ namespace Gamekit2D
             GainControl(Interact);
             GainControl(MeleeAttack);
             GainControl(RangedAttack);
+            GainControl(AstralCopy);
             GainControl(Jump);
             GainControl(Horizontal);
             GainControl(Vertical);
@@ -90,6 +93,7 @@ namespace Gamekit2D
             ReleaseControl(Interact, resetValues);
             ReleaseControl(MeleeAttack, resetValues);
             ReleaseControl(RangedAttack, resetValues);
+            ReleaseControl(AstralCopy, resetValues);
             ReleaseControl(Jump, resetValues);
             ReleaseControl(Horizontal, resetValues);
             ReleaseControl(Vertical, resetValues);
@@ -113,6 +117,17 @@ namespace Gamekit2D
         public void EnableRangedAttacking()
         {
             RangedAttack.Enable();
+        }
+
+        public void SetAstralCopyActivity(bool enabled)
+        {
+            if (AstralCopy.Enabled != enabled)
+            {
+                if (enabled)
+                    AstralCopy.Enable();
+                else
+                    AstralCopy.Disable();
+            }
         }
 
         public DataSettings GetDataSettings()

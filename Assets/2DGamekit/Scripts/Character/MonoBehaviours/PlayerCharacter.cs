@@ -25,6 +25,7 @@ namespace Gamekit2D
         public Transform facingRightBulletSpawnPoint;
         public BulletPool bulletPool;
         public Transform cameraFollowTarget;
+        [SerializeField]internal AstralCopyController astralCopyController;
 
         public float maxSpeed = 10f;
         public float groundAcceleration = 100f;

@@ -15,6 +15,7 @@ namespace Gamekit2D
         SerializedProperty m_FacingRightBulletSpawnPointProp;
         SerializedProperty m_BulletPoolProp;
         SerializedProperty m_CameraFollowTargetProp;
+        SerializedProperty m_AstralCopyControllerProp;
 
         SerializedProperty m_MaxSpeedProp;
         SerializedProperty m_GroundAccelerationProp;
@@ -71,6 +72,7 @@ namespace Gamekit2D
         readonly GUIContent m_FacingRightBulletSpawnPointContent = new GUIContent("Facing Right Bullet Spawn Point");
         readonly GUIContent m_BulletPoolContent = new GUIContent("Bullet Pool");
         readonly GUIContent m_CameraFollowTargetContent = new GUIContent("Camera Follow Target");
+        readonly GUIContent m_AstralCopyControllerContent = new GUIContent("Astral copy controller");
 
         readonly GUIContent m_MaxSpeedContent = new GUIContent("Max Speed");
         readonly GUIContent m_GroundAccelerationContent = new GUIContent("Ground Acceleration");
@@ -129,6 +131,7 @@ namespace Gamekit2D
             m_FacingRightBulletSpawnPointProp = serializedObject.FindProperty ("facingRightBulletSpawnPoint");
             m_BulletPoolProp = serializedObject.FindProperty("bulletPool");
             m_CameraFollowTargetProp = serializedObject.FindProperty ("cameraFollowTarget");
+            m_AstralCopyControllerProp = serializedObject.FindProperty ("astralCopyController");
 
             m_MaxSpeedProp = serializedObject.FindProperty("maxSpeed");
             m_GroundAccelerationProp = serializedObject.FindProperty("groundAcceleration");
@@ -187,6 +190,7 @@ namespace Gamekit2D
                 EditorGUILayout.PropertyField (m_FacingRightBulletSpawnPointProp, m_FacingRightBulletSpawnPointContent);
                 EditorGUILayout.PropertyField (m_BulletPoolProp, m_BulletPoolContent);
                 EditorGUILayout.PropertyField (m_CameraFollowTargetProp, m_CameraFollowTargetContent);
+                EditorGUILayout.PropertyField (m_AstralCopyControllerProp, m_AstralCopyControllerContent);
             }
 
             EditorGUI.indentLevel--;
