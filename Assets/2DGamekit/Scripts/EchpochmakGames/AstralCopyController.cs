@@ -93,9 +93,6 @@ namespace Gamekit2D
         private void SetAstralCopyComponents(GameObject original)
         {
             original.transform.position = new Vector2(m_eventPublisher.transform.position.x + AstralCopyShieldSpawnDistance * m_eventPublisher.GetFacing(), m_eventPublisher.transform.position.y);
-            original.GetComponent<CapsuleCollider2D>().offset = m_eventPublisher.CapsuleColliderOffset;
-            original.GetComponent<CapsuleCollider2D>().size = m_eventPublisher.CapsuleColliderSize;
-            original.GetComponent<SpriteRenderer>().sprite = m_eventPublisher.spriteRenderer.sprite;
             original.GetComponent<SpriteRenderer>().flipX = m_eventPublisher.spriteRenderer.flipX;
             original.GetComponent<SpriteRenderer>().color = AstralCopyColor;
         }
