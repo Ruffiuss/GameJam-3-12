@@ -1,6 +1,6 @@
 ﻿namespace Gamekit2D
 {
-    internal enum AstralCopyMode
+    public enum AstralCopyMode
     {
         Shield = 0,
         Spear = 1,

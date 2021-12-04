@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
 using UnityEngine;
@@ -17,6 +18,10 @@ namespace Gamekit2D
         {
             get { return m_InventoryController; }
         }
+
+        public Vector2 CapsuleColliderOffset { get {  return m_Capsule.offset; } }
+        public Vector2 CapsuleColliderSize { get {  return m_Capsule.size; } }
+
 
         public SpriteRenderer spriteRenderer;
         public Damageable damageable;
@@ -64,6 +69,8 @@ namespace Gamekit2D
         public float verticalCameraOffsetDelay;
 
         public bool spriteOriginallyFacesLeft;
+
+        public event Action<AstralCopyMode> OnAstralCopyUsed;
 
         protected CharacterController2D m_CharacterController2D;
         protected Animator m_Animator;
@@ -157,6 +164,8 @@ namespace Gamekit2D
 
             m_StartingPosition = transform.position;
             m_StartingFacingLeft = GetFacing() < 0.0f;
+
+            astralCopyController.Initialize(this);
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -657,6 +666,14 @@ namespace Gamekit2D
         public void ForceNotHoldingGun()
         {
             m_Animator.SetBool(m_HashHoldingGunPara, false);
+        }
+
+        public void CheckForAstralCopyShieldInput()
+        {
+            if (PlayerInput.Instance.AstralCopyShield.Held)
+            {
+                OnAstralCopyUsed.Invoke(AstralCopyMode.Shield);
+            }
         }
 
         public void EnableInvulnerability()

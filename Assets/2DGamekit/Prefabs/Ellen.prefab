@@ -341,7 +341,7 @@ MonoBehaviour:
     controllerButton: 8
     m_Enabled: 1
   Interact:
-    key: 101
+    key: 102
     controllerButton: 4
     m_Enabled: 1
   MeleeAttack:
@@ -352,10 +352,14 @@ MonoBehaviour:
     key: 324
     controllerButton: 10
     m_Enabled: 0
-  AstralCopy:
+  AstralCopyShield:
     key: 306
     controllerButton: 9
     m_Enabled: 1
+  AstralCopyTeleport:
+    key: 101
+    controllerButton: 10
+    m_Enabled: 0
   Jump:
     key: 32
     controllerButton: 1
@@ -390,7 +394,7 @@ MonoBehaviour:
   facingRightBulletSpawnPoint: {fileID: 4929711121330312}
   bulletPool: {fileID: 114680495344679792}
   cameraFollowTarget: {fileID: 4530920980854552}
-  astralCopyController: {fileID: 0}
+  astralCopyController: {fileID: 485510023287587800}
   maxSpeed: 7
   groundAcceleration: 100
   groundDeceleration: 100
@@ -692,11 +696,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e552019c173d1f840b910a87920e7cd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  astralCopyColor: {r: 0, g: 0, b: 1, a: 1}
-  astralCopyShieldSpawnDistance: 1
-  astralCopyShieldStrength: 1
-  astralCopyShieldCooldown: 5
-  astralCopySpearSpawnDistance: 3
+  AstralCopyColor: {r: 0, g: 0.9443002, b: 1, a: 1}
+  AstralCopyShieldSpawnDistance: 2
+  AstralCopyShieldStrength: 1
+  AstralCopyShieldCooldown: 5
+  AstralCopySpearSpawnDistance: 3
+  MaxAstralCopiesCount: 2
 --- !u!1 &1181578502863468
 GameObject:
   m_ObjectHideFlags: 0

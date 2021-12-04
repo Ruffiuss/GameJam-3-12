@@ -14405,7 +14405,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4b568e5436d1efa4b9f1010402b4a7ef, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -29426,7 +29425,22 @@ PrefabInstance:
         type: 3}
       propertyPath: astralCopyController
       value: 
-      objectReference: {fileID: 1141565047}
+      objectReference: {fileID: 1141565058}
+    - target: {fileID: 485510023287587800, guid: 73360cdb4e1e7ed4897690f9d57fd0eb,
+        type: 3}
+      propertyPath: astralCopyColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 485510023287587800, guid: 73360cdb4e1e7ed4897690f9d57fd0eb,
+        type: 3}
+      propertyPath: astralCopyColor.g
+      value: 0.9721279
+      objectReference: {fileID: 0}
+    - target: {fileID: 485510023287587800, guid: 73360cdb4e1e7ed4897690f9d57fd0eb,
+        type: 3}
+      propertyPath: MaxAstralCopiesCount
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73360cdb4e1e7ed4897690f9d57fd0eb, type: 3}
 --- !u!1 &1141565045 stripped
@@ -29447,13 +29461,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960138f0450083543ad1d17e1352019d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1141565047 stripped
+--- !u!114 &1141565058 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 397243612412698914, guid: 73360cdb4e1e7ed4897690f9d57fd0eb,
+  m_CorrespondingSourceObject: {fileID: 485510023287587800, guid: 73360cdb4e1e7ed4897690f9d57fd0eb,
     type: 3}
   m_PrefabInstance: {fileID: 1141565044}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1141565045}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e552019c173d1f840b910a87920e7cd7, type: 3}
