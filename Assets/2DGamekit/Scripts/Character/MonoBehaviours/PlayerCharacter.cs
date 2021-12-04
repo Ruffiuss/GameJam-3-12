@@ -70,7 +70,7 @@ namespace Gamekit2D
 
         public bool spriteOriginallyFacesLeft;
 
-        public event Action<AstralCopyMode> OnAstralCopyUsed;
+        public event Action<bool> OnAstralCopyShieldHeld;
 
         protected CharacterController2D m_CharacterController2D;
         protected Animator m_Animator;
@@ -670,10 +670,11 @@ namespace Gamekit2D
 
         public void CheckForAstralCopyShieldInput()
         {
-            if (PlayerInput.Instance.AstralCopyShield.Held)
+            if (!astralCopyController.IsShieldCooldown)
             {
-                OnAstralCopyUsed.Invoke(AstralCopyMode.Shield);
-            }
+                OnAstralCopyShieldHeld.Invoke(PlayerInput.Instance.AstralCopyShield.Held);
+                PlayerInput.Instance.ChangeControlByShieldActivity(PlayerInput.Instance.AstralCopyShield.Held);
+            }            
         }
 
         public void EnableInvulnerability()

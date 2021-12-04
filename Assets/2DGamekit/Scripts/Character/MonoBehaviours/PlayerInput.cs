@@ -103,6 +103,30 @@ namespace Gamekit2D
             ReleaseControl(Vertical, resetValues);
         }
 
+        public void ChangeControlByShieldActivity(bool isActive, bool resetValues = true)
+        {
+            if (isActive)
+            {
+                Interact.Disable();
+                MeleeAttack.Disable();
+                RangedAttack.Disable();
+                AstralCopyTeleport.Disable();
+                Jump.Disable();
+                Horizontal.Disable();
+                Vertical.Disable();
+            }
+            else
+            {
+                Interact.Enable();
+                MeleeAttack.Enable();
+                RangedAttack.Enable();
+                AstralCopyTeleport.Enable();
+                Jump.Enable();
+                Horizontal.Enable();
+                Vertical.Enable();
+            }
+        }
+
         public void DisableMeleeAttacking()
         {
             MeleeAttack.Disable();

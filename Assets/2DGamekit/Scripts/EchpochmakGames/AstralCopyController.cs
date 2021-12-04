@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,24 +9,26 @@ namespace Gamekit2D
     {
         #region Properties
 
-        private AstralCopyPool m_astralCopyPool;
-        private PlayerCharacter m_eventPublisher;
-
-        internal byte CurrentCopiesCount { get; private set; }
+        public byte CurrentCopiesCount { get; private set; }
+        public bool IsShieldCooldown { get; private set; }
 
         #endregion
 
 
         #region Fields
 
+        private AstralCopyPool m_astralCopyPool;
+        private PlayerCharacter m_eventPublisher;
+
+        private Dictionary<AstralCopyMode, GameObject> m_currentCopies;
+        private bool isShieldActive = false;
+
         public Color AstralCopyColor = Color.blue;
         public float AstralCopyShieldSpawnDistance = 1.0f;
         public float AstralCopyShieldStrength = 1.0f;
         public float AstralCopyShieldCooldown = 5.0f;
         public float AstralCopySpearSpawnDistance = 3.0f;
-        public byte MaxAstralCopiesCount = (byte)1; // add to editor
-
-        private Dictionary<AstralCopyMode, GameObject> m_currentCopies;
+        public byte MaxAstralCopiesCount = (byte)1;
 
         #endregion
 
@@ -39,7 +42,7 @@ namespace Gamekit2D
 
         private void Start()
         {
-            m_currentCopies = new Dictionary<AstralCopyMode, GameObject>();
+            m_currentCopies = new Dictionary<AstralCopyMode, GameObject>() { { AstralCopyMode.Shield, null}, {AstralCopyMode.Spear , null}, {AstralCopyMode.Teleport , null} };
         }
 
         #endregion
@@ -51,7 +54,7 @@ namespace Gamekit2D
         {
             if (!m_eventPublisher)
             {
-                m_eventPublisher.OnAstralCopyUsed -= MakeAstralCopy;
+                m_eventPublisher.OnAstralCopyShieldHeld -= PutUpShield;
             }
         }
 
@@ -63,38 +66,44 @@ namespace Gamekit2D
         internal void Initialize(PlayerCharacter eventPublisher)
         {
             m_eventPublisher = eventPublisher;
-            m_eventPublisher.OnAstralCopyUsed += MakeAstralCopy;
+            m_eventPublisher.OnAstralCopyShieldHeld += PutUpShield;
+
+            m_currentCopies[AstralCopyMode.Shield] = m_astralCopyPool.Pop();
+            m_currentCopies[AstralCopyMode.Shield].SetActive(false);
+            m_currentCopies[AstralCopyMode.Shield].GetComponent<SpriteRenderer>().flipX = m_eventPublisher.spriteRenderer.flipX;
+            m_currentCopies[AstralCopyMode.Shield].GetComponent<SpriteRenderer>().color = AstralCopyColor;
+            m_currentCopies[AstralCopyMode.Shield].transform.SetParent(transform);
+            m_currentCopies[AstralCopyMode.Shield].transform.position = new Vector2(m_eventPublisher.transform.position.x + AstralCopyShieldSpawnDistance * m_eventPublisher.GetFacing(), m_eventPublisher.transform.position.y);
+            m_currentCopies[AstralCopyMode.Shield].GetComponent<Animator>().SetTrigger("Defence");
+            m_currentCopies[AstralCopyMode.Shield].GetComponent<AstralCopyView>();
         }
 
-        internal void MakeAstralCopy(AstralCopyMode mode)
+        internal void PutUpShield(bool hasInput)
         {
-            if (CurrentCopiesCount < MaxAstralCopiesCount)
+            if (hasInput && !isShieldActive)
             {
-                if (m_currentCopies.ContainsKey(mode))
-                {
-                    if (!m_currentCopies[mode])
-                    {
-                        m_currentCopies[mode] = m_astralCopyPool.Pop();
-                        SetAstralCopyComponents(m_currentCopies[mode]);
-                        CurrentCopiesCount++;
-                    }
-                    else Debug.Log($"{mode} alredy have view on scene: {m_currentCopies[mode].name}");
-                }
-                else
-                {
-                    m_currentCopies.Add(mode, m_astralCopyPool.Pop());
-                    SetAstralCopyComponents(m_currentCopies[mode]);
-                    CurrentCopiesCount++;
-                }
+                if (CurrentCopiesCount >= MaxAstralCopiesCount)
+                    return;
+
+                m_currentCopies[AstralCopyMode.Shield].SetActive(true);
+                CurrentCopiesCount++;
+                isShieldActive = true;
             }
-            Debug.Log($"You already use max count of copies");
+            else if (!hasInput && isShieldActive)
+            {
+                m_currentCopies[AstralCopyMode.Shield].SetActive(false);
+                isShieldActive = false;
+                IsShieldCooldown = true;
+                CurrentCopiesCount--;
+                StartCoroutine(ShieldCooldown());
+            }
         }
 
-        private void SetAstralCopyComponents(GameObject original)
+        IEnumerator ShieldCooldown()
         {
-            original.transform.position = new Vector2(m_eventPublisher.transform.position.x + AstralCopyShieldSpawnDistance * m_eventPublisher.GetFacing(), m_eventPublisher.transform.position.y);
-            original.GetComponent<SpriteRenderer>().flipX = m_eventPublisher.spriteRenderer.flipX;
-            original.GetComponent<SpriteRenderer>().color = AstralCopyColor;
+            yield return new WaitForSeconds(AstralCopyShieldCooldown);
+            StopCoroutine("ShieldCooldown");
+            IsShieldCooldown = false;
         }
 
         #endregion
