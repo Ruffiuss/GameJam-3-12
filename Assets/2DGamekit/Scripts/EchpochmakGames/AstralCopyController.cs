@@ -9,7 +9,15 @@ namespace Gamekit2D
     {
         #region Properties
 
-        public byte CurrentCopiesCount { get; private set; }
+        public byte CurrentCopiesCount
+        { 
+            get => copiesCount; 
+            private set
+            {
+                if (copiesCount == 0)
+                    value = 0;
+            } 
+        }
         public bool IsShieldCooldown { get; private set; }
 
         #endregion
@@ -28,6 +36,7 @@ namespace Gamekit2D
         private PlayerCharacter m_eventPublisher;
         private Dictionary<AstralCopyMode, GameObject> m_currentCopies;
 
+        private byte copiesCount;
         private bool isShieldActive = false;
         private bool isTeleportActive = false;
         private bool isMeleeEnabledBeforeShield;
@@ -107,8 +116,6 @@ namespace Gamekit2D
             PlayerInput.Instance.Jump.Enable();
             PlayerInput.Instance.Horizontal.Enable();
             PlayerInput.Instance.Vertical.Enable();
-
-            Debug.Log("Control enabled");
         }
 
         internal void PutUpShield(bool hasInput)
@@ -145,15 +152,19 @@ namespace Gamekit2D
 
         private void ShieldTakeDamage(GameObject shieldView)
         {
+            
             if (m_currentCopies[AstralCopyMode.Shield].Equals(shieldView))
             {
-                DeactivateShield();
-                IsShieldCooldown = true;
-                m_currentCopies[AstralCopyMode.Shield].GetComponent<AstralCopyView>().OnCollision -= ShieldTakeDamage;
-                m_astralCopyPool.Push(m_currentCopies[AstralCopyMode.Shield]);
-                m_currentCopies[AstralCopyMode.Shield] = null;
-                StartCoroutine(ShieldCooldown());
+                StartCoroutine(ShieldTakeDamageDelay());
             }
+        }
+
+        IEnumerator ShieldTakeDamageDelay()
+        {
+            yield return new WaitForSeconds(0.01f);
+            DeactivateShield();
+            IsShieldCooldown = true;
+            StartCoroutine(ShieldCooldown());
         }
 
         private void DeactivateShield()

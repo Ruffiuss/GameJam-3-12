@@ -16,10 +16,13 @@ MonoBehaviour:
   phrases:
   - key: INFOPOST1
     value: '"Use A and D for left and right movement, SPACE to jump and S to crouch,
-      Left Control for shield."'
+      Left Shift  for Astral Sacrifice."'
   - key: INFOPOST2
     value: "\u201CWeird, it feels spongy and strange underfoot. What happens if we
       try S and SPACE at the same time?\u201D "
   - key: INFOPOST3
     value: "\u201CThis place just got interesting! Use K to hit and O to shoot. Let\u2019s
       try it on this innocent looking wall.\u201D"
+  - key: INFOPOST4
+    value: "\u201CNow you have astral copy for teleport. Press Q for set up teleport
+      copy, then press E to teleport on copy.\u201D"

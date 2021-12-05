@@ -18,10 +18,11 @@ namespace Gamekit2D
         #region Fields
 
         public Damageable damageable;
-        public Damager meleeDamager;
+        public Damager damager;
 
         private SpriteRenderer m_spriteRenderer;
         private CapsuleCollider2D m_capsuleCollider;
+        private bool isDamaged = false;
 
         #endregion
 
@@ -33,7 +34,7 @@ namespace Gamekit2D
             m_spriteRenderer = GetComponent<SpriteRenderer>();
             m_capsuleCollider = GetComponent<CapsuleCollider2D>();
             damageable = GetComponent<Damageable>();
-            meleeDamager = GetComponent<Damager>();
+            damager = GetComponent<Damager>();
         }
 
         #endregion
@@ -45,13 +46,18 @@ namespace Gamekit2D
         {
             damageable.disableOnDeath = false;
             damageable.GainHealth(health);
+            isDamaged = false;
 
             return this;
         }
 
         public void ShieldDamaged()
         {
-            OnCollision.Invoke(gameObject);
+            if (!isDamaged)
+            {
+                isDamaged = true;
+                OnCollision.Invoke(gameObject);
+            }
         }
 
         public void Unload()

@@ -158,7 +158,7 @@ namespace Gamekit2D
 
         public Data SaveData()
         {
-            return new Data<bool, bool>(MeleeAttack.Enabled, RangedAttack.Enabled);
+            return new Data<bool, bool, bool>(MeleeAttack.Enabled, RangedAttack.Enabled, AstralCopyTeleport.Enabled);
         }
 
         public void LoadData(Data data)

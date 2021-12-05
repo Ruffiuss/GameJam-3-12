@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 485510023287587800}
   m_Layer: 13
   m_Name: Ellen
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -341,23 +341,23 @@ MonoBehaviour:
     controllerButton: 8
     m_Enabled: 1
   Interact:
-    key: 102
+    key: 101
     controllerButton: 4
     m_Enabled: 1
   MeleeAttack:
-    key: 323
+    key: 107
     controllerButton: 3
     m_Enabled: 0
   RangedAttack:
-    key: 324
+    key: 111
     controllerButton: 10
     m_Enabled: 0
   AstralCopyShield:
-    key: 306
+    key: 304
     controllerButton: 9
     m_Enabled: 1
   AstralCopyTeleport:
-    key: 101
+    key: 113
     controllerButton: 10
     m_Enabled: 0
   Jump:
@@ -407,7 +407,7 @@ MonoBehaviour:
   hurtJumpAngle: 45
   hurtJumpSpeed: 8
   flickeringDuration: 0.05
-  meleeAttackDashSpeed: 15
+  meleeAttackDashSpeed: 5
   dashWhileAirborne: 1
   footstepAudioPlayer: {fileID: 114293955134965878}
   landingAudioPlayer: {fileID: 114437884384235768}
@@ -416,7 +416,7 @@ MonoBehaviour:
   rangedAttackAudioPlayer: {fileID: 114803637809275856}
   shotsPerSecond: 2
   bulletSpeed: 30
-  holdingGunTimeoutDuration: 1.5
+  holdingGunTimeoutDuration: 0.3
   rightBulletSpawnPointAnimated: 1
   cameraHorizontalFacingOffset: 2
   cameraHorizontalSpeedOffset: 0.2
@@ -697,11 +697,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AstralCopyColor: {r: 0, g: 0.9443002, b: 1, a: 1}
-  AstralCopyShieldSpawnDistance: 2
+  AstralCopyShieldSpawnDistance: 1
   AstralCopyShieldStrength: 1
   AstralCopyShieldCooldown: 5
   AstralCopySpearSpawnDistance: 3
-  MaxAstralCopiesCount: 1
+  MaxAstralCopiesCount: 2
 --- !u!1 &1181578502863468
 GameObject:
   m_ObjectHideFlags: 0
