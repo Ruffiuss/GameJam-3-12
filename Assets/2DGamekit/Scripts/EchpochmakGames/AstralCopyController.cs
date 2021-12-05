@@ -32,7 +32,6 @@ namespace Gamekit2D
         public float AstralCopySpearSpawnDistance = 3.0f;
         public byte MaxAstralCopiesCount = (byte)1;
 
-        private AstralCopyPool m_astralCopyPool;
         private PlayerCharacter m_eventPublisher;
         private Dictionary<AstralCopyMode, GameObject> m_currentCopies;
 
@@ -51,7 +50,6 @@ namespace Gamekit2D
         private void Start()
         {
             m_currentCopies = new Dictionary<AstralCopyMode, GameObject>() { { AstralCopyMode.Shield, null}, {AstralCopyMode.Spear , null}, {AstralCopyMode.Teleport , null} };
-            m_astralCopyPool = new AstralCopyPool();
         }
 
         #endregion
@@ -69,7 +67,6 @@ namespace Gamekit2D
             foreach (var copy in m_currentCopies)
             {
                 copy.Value.GetComponent<AstralCopyView>().OnCollision -= ShieldTakeDamage;
-                m_astralCopyPool.Push(copy.Value);
             }
         }
 
@@ -140,7 +137,9 @@ namespace Gamekit2D
         private void CreateAstralCopyShield()
         {
             if (!m_currentCopies[AstralCopyMode.Shield])
-                m_currentCopies[AstralCopyMode.Shield] = m_astralCopyPool.Pop();
+            {
+                m_currentCopies[AstralCopyMode.Shield] = Object.Instantiate(Resources.Load<GameObject>("AstralCopyView"));
+            }
             m_currentCopies[AstralCopyMode.Shield].GetComponent<SpriteRenderer>().flipX = m_eventPublisher.spriteRenderer.flipX;
             m_currentCopies[AstralCopyMode.Shield].GetComponent<SpriteRenderer>().color = AstralCopyColor;
             m_currentCopies[AstralCopyMode.Shield].transform.SetParent(transform);
@@ -164,6 +163,8 @@ namespace Gamekit2D
             yield return new WaitForSeconds(0.01f);
             DeactivateShield();
             IsShieldCooldown = true;
+            m_currentCopies[AstralCopyMode.Shield].GetComponent<AstralCopyView>().Unload();
+            m_currentCopies[AstralCopyMode.Shield] = null;
             StartCoroutine(ShieldCooldown());
         }
 
@@ -194,7 +195,7 @@ namespace Gamekit2D
             else
             {
                 m_eventPublisher.transform.position = m_currentCopies[AstralCopyMode.Teleport].transform.position;
-                m_astralCopyPool.Push(m_currentCopies[AstralCopyMode.Teleport]);
+                m_currentCopies[AstralCopyMode.Teleport].GetComponent<AstralCopyView>().Unload();
                 m_currentCopies[AstralCopyMode.Teleport] = null;
                 isTeleportActive = false;
                 CurrentCopiesCount--;
@@ -204,8 +205,9 @@ namespace Gamekit2D
         private void CreateAstralCopyTeleport()
         {
             if (!m_currentCopies[AstralCopyMode.Teleport])
-                m_currentCopies[AstralCopyMode.Teleport] = m_astralCopyPool.Pop();
-
+            {
+                m_currentCopies[AstralCopyMode.Teleport] = Object.Instantiate(Resources.Load<GameObject>("AstralCopyView"));
+            }
             m_currentCopies[AstralCopyMode.Teleport].transform.position = m_eventPublisher.transform.position;
 
             m_currentCopies[AstralCopyMode.Teleport].GetComponent<CapsuleCollider2D>().isTrigger = true;

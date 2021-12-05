@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 1
-  invulnerableAfterDamage: 1
+  invulnerableAfterDamage: 0
   invulnerabilityDuration: 0
   disableOnDeath: 0
   centreOffset: {x: 0, y: 1}
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1506f7b67235554cb42519c257da979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 2
   offset: {x: 0.02, y: 0.98}
   size: {x: 0.86, y: 2.14}
   offsetBasedOnSpriteFacing: 0

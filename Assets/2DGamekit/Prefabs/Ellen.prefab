@@ -414,6 +414,7 @@ MonoBehaviour:
   hurtAudioPlayer: {fileID: 114513338842717954}
   meleeAttackAudioPlayer: {fileID: 114450141185934166}
   rangedAttackAudioPlayer: {fileID: 114803637809275856}
+  shieldAudioPlayer: {fileID: 0}
   shotsPerSecond: 2
   bulletSpeed: 30
   holdingGunTimeoutDuration: 0.3
@@ -698,7 +699,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AstralCopyColor: {r: 0, g: 0.9443002, b: 1, a: 1}
   AstralCopyShieldSpawnDistance: 1
-  AstralCopyShieldStrength: 1
+  AstralCopyShieldStrength: 2
   AstralCopyShieldCooldown: 5
   AstralCopySpearSpawnDistance: 3
   MaxAstralCopiesCount: 2

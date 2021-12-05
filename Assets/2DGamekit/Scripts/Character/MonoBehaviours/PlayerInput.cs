@@ -163,7 +163,7 @@ namespace Gamekit2D
 
         public void LoadData(Data data)
         {
-            Data<bool, bool> playerInputData = (Data<bool, bool>)data;
+            Data<bool, bool, bool> playerInputData = (Data<bool, bool, bool>)data;
 
             if (playerInputData.value0)
                 MeleeAttack.Enable();
@@ -174,6 +174,11 @@ namespace Gamekit2D
                 RangedAttack.Enable();
             else
                 RangedAttack.Disable();
+
+            if (playerInputData.value2)
+                AstralCopyTeleport.Enable();
+            else
+                AstralCopyTeleport.Disable();
         }
 
         void OnGUI()

@@ -675,10 +675,6 @@ namespace Gamekit2D
             {
                 OnAstralCopyShieldHeld.Invoke(PlayerInput.Instance.AstralCopyShield.Held);
             }
-            else
-            {
-                Debug.Log($"Shield on cooldown:{astralCopyController.IsShieldCooldown}");
-            }
         }
 
         public void CheckForAstralCopyTeleportInput()
