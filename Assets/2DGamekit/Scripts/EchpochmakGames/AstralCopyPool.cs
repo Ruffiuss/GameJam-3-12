@@ -8,8 +8,8 @@ namespace Gamekit2D
     {
         #region Fields
 
-        private readonly Stack<GameObject> _astralCopyViews = new Stack<GameObject>();
-        private readonly GameObject _originalPrefab;
+        private readonly Stack<GameObject> m_astralCopyViews = new Stack<GameObject>();
+        private readonly GameObject m_originalPrefab;
 
         #endregion
 
@@ -18,7 +18,20 @@ namespace Gamekit2D
 
         internal AstralCopyPool()
         {
-            _originalPrefab = Resources.Load<GameObject>("AstralCopyView");
+            m_originalPrefab = Resources.Load<GameObject>("AstralCopyView");
+        }
+
+        #endregion
+
+
+        #region ClassLifeCycles
+
+        ~AstralCopyPool()
+        {
+            foreach (var go in m_astralCopyViews)
+            {
+                go.GetComponent<AstralCopyView>().Unload();
+            }
         }
 
         #endregion
@@ -28,7 +41,7 @@ namespace Gamekit2D
 
         internal void Push(GameObject go)
         {
-            _astralCopyViews.Push(go);
+            m_astralCopyViews.Push(go);
             go.SetActive(false);
         }
 
@@ -36,11 +49,12 @@ namespace Gamekit2D
         {
             GameObject go;
 
-            if (_astralCopyViews.Count == 0)
+            if (m_astralCopyViews.Count == 0)
             {
-                go = Object.Instantiate(_originalPrefab);
+                go = Object.Instantiate(m_originalPrefab);
             }
-            else go = _astralCopyViews.Pop();
+            else go = m_astralCopyViews.Pop();
+            go.SetActive(false);
             return go;
         }
 

@@ -71,6 +71,7 @@ namespace Gamekit2D
         public bool spriteOriginallyFacesLeft;
 
         public event Action<bool> OnAstralCopyShieldHeld;
+        public event Action<bool> OnAstralCopyTeleportDown;
 
         protected CharacterController2D m_CharacterController2D;
         protected Animator m_Animator;
@@ -673,8 +674,19 @@ namespace Gamekit2D
             if (!astralCopyController.IsShieldCooldown)
             {
                 OnAstralCopyShieldHeld.Invoke(PlayerInput.Instance.AstralCopyShield.Held);
-                PlayerInput.Instance.ChangeControlByShieldActivity(PlayerInput.Instance.AstralCopyShield.Held);
-            }            
+            }
+            else
+            {
+                Debug.Log($"Shield on cooldown:{astralCopyController.IsShieldCooldown}");
+            }
+        }
+
+        public void CheckForAstralCopyTeleportInput()
+        {
+            if (PlayerInput.Instance.AstralCopyTeleport.Down)
+            {
+                OnAstralCopyTeleportDown.Invoke(true);
+            }
         }
 
         public void EnableInvulnerability()

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 namespace Gamekit2D
@@ -9,12 +10,15 @@ namespace Gamekit2D
     {
         #region Properties
 
-        internal AstralCopyState CurrentState { get; private set; }
+        public event Action<GameObject> OnCollision;
 
         #endregion
 
 
         #region Fields
+
+        public Damageable damageable;
+        public Damager meleeDamager;
 
         private SpriteRenderer m_spriteRenderer;
         private CapsuleCollider2D m_capsuleCollider;
@@ -28,6 +32,31 @@ namespace Gamekit2D
         {
             m_spriteRenderer = GetComponent<SpriteRenderer>();
             m_capsuleCollider = GetComponent<CapsuleCollider2D>();
+            damageable = GetComponent<Damageable>();
+            meleeDamager = GetComponent<Damager>();
+        }
+
+        #endregion
+
+
+        #region Methods
+
+        public AstralCopyView SetupAsShield(int health)
+        {
+            damageable.disableOnDeath = false;
+            damageable.GainHealth(health);
+
+            return this;
+        }
+
+        public void ShieldDamaged()
+        {
+            OnCollision.Invoke(gameObject);
+        }
+
+        public void Unload()
+        {
+            Destroy(gameObject);
         }
 
         #endregion

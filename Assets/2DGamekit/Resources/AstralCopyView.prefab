@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 147282710546833159}
   - component: {fileID: 5753052635748384408}
   - component: {fileID: 5231957025133596909}
+  - component: {fileID: 3315471439691075525}
+  - component: {fileID: 7924105724483593640}
   m_Layer: 13
   m_Name: AstralCopyView
   m_TagString: Untagged
@@ -95,7 +97,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 1}
@@ -113,6 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce573fa6f8775446b8afcddbdb0cff3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageable: {fileID: 0}
+  meleeDamager: {fileID: 0}
 --- !u!95 &5231957025133596909
 Animator:
   serializedVersion: 3
@@ -132,3 +136,89 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &3315471439691075525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3622691265302200051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960138f0450083543ad1d17e1352019d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingHealth: 1
+  invulnerableAfterDamage: 1
+  invulnerabilityDuration: 0
+  disableOnDeath: 1
+  centreOffset: {x: 0, y: 1}
+  OnHealthSet:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTakeDamage:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDie:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5753052635748384408}
+        m_TargetAssemblyTypeName: Gamekit2D.AstralCopyView, Assembly-CSharp
+        m_MethodName: ShieldDamaged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnGainHealth:
+    m_PersistentCalls:
+      m_Calls: []
+  dataSettings:
+    dataTag: a2bf930e-bf74-4627-a922-f3cd5844d782
+    persistenceType: 3
+--- !u!114 &7924105724483593640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3622691265302200051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1506f7b67235554cb42519c257da979, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  offset: {x: 0.02, y: 0.98}
+  size: {x: 0.86, y: 2.14}
+  offsetBasedOnSpriteFacing: 1
+  spriteRenderer: {fileID: 1221883673624898553}
+  canHitTriggers: 0
+  disableDamageAfterHit: 0
+  forceRespawn: 0
+  ignoreInvincibility: 0
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 524800
+  OnDamageableHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5753052635748384408}
+        m_TargetAssemblyTypeName: Gamekit2D.AstralCopyView, Assembly-CSharp
+        m_MethodName: ShieldDamaged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnNonDamageableHit:
+    m_PersistentCalls:
+      m_Calls: []

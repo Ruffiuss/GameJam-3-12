@@ -103,30 +103,6 @@ namespace Gamekit2D
             ReleaseControl(Vertical, resetValues);
         }
 
-        public void ChangeControlByShieldActivity(bool isActive, bool resetValues = true)
-        {
-            if (isActive)
-            {
-                Interact.Disable();
-                MeleeAttack.Disable();
-                RangedAttack.Disable();
-                AstralCopyTeleport.Disable();
-                Jump.Disable();
-                Horizontal.Disable();
-                Vertical.Disable();
-            }
-            else
-            {
-                Interact.Enable();
-                MeleeAttack.Enable();
-                RangedAttack.Enable();
-                AstralCopyTeleport.Enable();
-                Jump.Enable();
-                Horizontal.Enable();
-                Vertical.Enable();
-            }
-        }
-
         public void DisableMeleeAttacking()
         {
             MeleeAttack.Disable();
@@ -213,6 +189,7 @@ namespace Gamekit2D
 
                 bool meleeAttackEnabled = GUILayout.Toggle(MeleeAttack.Enabled, "Enable Melee Attack");
                 bool rangeAttackEnabled = GUILayout.Toggle(RangedAttack.Enabled, "Enable Range Attack");
+                bool astralCopyTeleportEnabled = GUILayout.Toggle(AstralCopyTeleport.Enabled, "Enable Astral copy teleport");
 
                 if (meleeAttackEnabled != MeleeAttack.Enabled)
                 {
@@ -229,6 +206,15 @@ namespace Gamekit2D
                     else
                         RangedAttack.Disable();
                 }
+
+                if (astralCopyTeleportEnabled != AstralCopyTeleport.Enabled)
+                {
+                    if (astralCopyTeleportEnabled)
+                        AstralCopyTeleport.Enable();
+                    else
+                        AstralCopyTeleport.Disable();
+                }
+
                 GUILayout.EndVertical();
                 GUILayout.EndArea();
             }

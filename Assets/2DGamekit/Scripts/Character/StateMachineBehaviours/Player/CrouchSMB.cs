@@ -16,7 +16,8 @@ namespace Gamekit2D
             m_MonoBehaviour.CheckForHoldingGun();
             if (m_MonoBehaviour.CheckForGrounded())
                 m_MonoBehaviour.CheckForAstralCopyShieldInput();
-            if(m_MonoBehaviour.CheckForFallInput())
+            m_MonoBehaviour.CheckForAstralCopyTeleportInput();
+            if (m_MonoBehaviour.CheckForFallInput())
                 m_MonoBehaviour.MakePlatformFallthrough ();
             m_MonoBehaviour.GroundedVerticalMovement ();
             m_MonoBehaviour.GroundedHorizontalMovement (false);
