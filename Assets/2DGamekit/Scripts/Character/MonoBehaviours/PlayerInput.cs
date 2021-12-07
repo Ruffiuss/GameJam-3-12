@@ -15,9 +15,11 @@ namespace Gamekit2D
         public bool HaveControl { get { return m_HaveControl; } }
 
         public InputButton Pause = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu);
-        public InputButton Interact = new InputButton(KeyCode.E, XboxControllerButtons.Y);
-        public InputButton MeleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X);
-        public InputButton RangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B);
+        public InputButton Interact = new InputButton(KeyCode.F, XboxControllerButtons.Y);
+        public InputButton MeleeAttack = new InputButton(KeyCode.Mouse0, XboxControllerButtons.X);
+        public InputButton RangedAttack = new InputButton(KeyCode.Mouse1, XboxControllerButtons.B);
+        public InputButton AstralCopyShield = new InputButton(KeyCode.LeftControl, XboxControllerButtons.LeftBumper);
+        public InputButton AstralCopyTeleport = new InputButton(KeyCode.E, XboxControllerButtons.RightBumper);
         public InputButton Jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
         public InputAxis Horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal);
         public InputAxis Vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical);
@@ -59,6 +61,8 @@ namespace Gamekit2D
             Interact.Get(fixedUpdateHappened, inputType);
             MeleeAttack.Get(fixedUpdateHappened, inputType);
             RangedAttack.Get(fixedUpdateHappened, inputType);
+            AstralCopyShield.Get(fixedUpdateHappened, inputType);
+            AstralCopyTeleport.Get(fixedUpdateHappened, inputType);
             Jump.Get(fixedUpdateHappened, inputType);
             Horizontal.Get(inputType);
             Vertical.Get(inputType);
@@ -77,6 +81,8 @@ namespace Gamekit2D
             GainControl(Interact);
             GainControl(MeleeAttack);
             GainControl(RangedAttack);
+            GainControl(AstralCopyShield);
+            GainControl(AstralCopyTeleport);
             GainControl(Jump);
             GainControl(Horizontal);
             GainControl(Vertical);
@@ -90,6 +96,8 @@ namespace Gamekit2D
             ReleaseControl(Interact, resetValues);
             ReleaseControl(MeleeAttack, resetValues);
             ReleaseControl(RangedAttack, resetValues);
+            ReleaseControl(AstralCopyShield, resetValues);
+            ReleaseControl(AstralCopyTeleport, resetValues);
             ReleaseControl(Jump, resetValues);
             ReleaseControl(Horizontal, resetValues);
             ReleaseControl(Vertical, resetValues);
@@ -115,6 +123,28 @@ namespace Gamekit2D
             RangedAttack.Enable();
         }
 
+        public void SetAstralCopyShieldActivity(bool enabled)
+        {
+            if (AstralCopyShield.Enabled != enabled)
+            {
+                if (enabled)
+                    AstralCopyShield.Enable();
+                else
+                    AstralCopyShield.Disable();
+            }
+        }
+
+        public void SetAstralCopyTeleportActivity(bool enabled)
+        {
+            if (AstralCopyTeleport.Enabled != enabled)
+            {
+                if (enabled)
+                    AstralCopyTeleport.Enable();
+                else
+                    AstralCopyTeleport.Disable();
+            }
+        }
+
         public DataSettings GetDataSettings()
         {
             return dataSettings;
@@ -128,12 +158,12 @@ namespace Gamekit2D
 
         public Data SaveData()
         {
-            return new Data<bool, bool>(MeleeAttack.Enabled, RangedAttack.Enabled);
+            return new Data<bool, bool, bool>(MeleeAttack.Enabled, RangedAttack.Enabled, AstralCopyTeleport.Enabled);
         }
 
         public void LoadData(Data data)
         {
-            Data<bool, bool> playerInputData = (Data<bool, bool>)data;
+            Data<bool, bool, bool> playerInputData = (Data<bool, bool, bool>)data;
 
             if (playerInputData.value0)
                 MeleeAttack.Enable();
@@ -144,6 +174,11 @@ namespace Gamekit2D
                 RangedAttack.Enable();
             else
                 RangedAttack.Disable();
+
+            if (playerInputData.value2)
+                AstralCopyTeleport.Enable();
+            else
+                AstralCopyTeleport.Disable();
         }
 
         void OnGUI()
@@ -159,6 +194,7 @@ namespace Gamekit2D
 
                 bool meleeAttackEnabled = GUILayout.Toggle(MeleeAttack.Enabled, "Enable Melee Attack");
                 bool rangeAttackEnabled = GUILayout.Toggle(RangedAttack.Enabled, "Enable Range Attack");
+                bool astralCopyTeleportEnabled = GUILayout.Toggle(AstralCopyTeleport.Enabled, "Enable Astral copy teleport");
 
                 if (meleeAttackEnabled != MeleeAttack.Enabled)
                 {
@@ -175,6 +211,15 @@ namespace Gamekit2D
                     else
                         RangedAttack.Disable();
                 }
+
+                if (astralCopyTeleportEnabled != AstralCopyTeleport.Enabled)
+                {
+                    if (astralCopyTeleportEnabled)
+                        AstralCopyTeleport.Enable();
+                    else
+                        AstralCopyTeleport.Disable();
+                }
+
                 GUILayout.EndVertical();
                 GUILayout.EndArea();
             }

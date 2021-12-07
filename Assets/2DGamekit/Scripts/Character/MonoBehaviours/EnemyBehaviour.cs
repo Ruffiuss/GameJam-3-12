@@ -50,6 +50,8 @@ namespace Gamekit2D
         [Header("Range Attack Data")]
         [Tooltip("From where the projectile are spawned")]
         public Transform shootingOrigin;
+        public bool canShoot = true;
+        public float reloadingTime = 2.0f;
 
         [Header("Audio")]
         public RandomAudioPlayer shootingAudio;

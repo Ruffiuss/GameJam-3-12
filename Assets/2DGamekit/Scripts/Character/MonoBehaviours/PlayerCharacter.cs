@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Principal;
 using UnityEngine;
@@ -18,6 +19,10 @@ namespace Gamekit2D
             get { return m_InventoryController; }
         }
 
+        public Vector2 CapsuleColliderOffset { get {  return m_Capsule.offset; } }
+        public Vector2 CapsuleColliderSize { get {  return m_Capsule.size; } }
+
+
         public SpriteRenderer spriteRenderer;
         public Damageable damageable;
         public Damager meleeDamager;
@@ -25,6 +30,7 @@ namespace Gamekit2D
         public Transform facingRightBulletSpawnPoint;
         public BulletPool bulletPool;
         public Transform cameraFollowTarget;
+        [SerializeField]internal AstralCopyController astralCopyController;
 
         public float maxSpeed = 10f;
         public float groundAcceleration = 100f;
@@ -63,6 +69,9 @@ namespace Gamekit2D
         public float verticalCameraOffsetDelay;
 
         public bool spriteOriginallyFacesLeft;
+
+        public event Action<bool> OnAstralCopyShieldHeld;
+        public event Action<bool> OnAstralCopyTeleportDown;
 
         protected CharacterController2D m_CharacterController2D;
         protected Animator m_Animator;
@@ -156,6 +165,8 @@ namespace Gamekit2D
 
             m_StartingPosition = transform.position;
             m_StartingFacingLeft = GetFacing() < 0.0f;
+
+            astralCopyController.Initialize(this);
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -656,6 +667,22 @@ namespace Gamekit2D
         public void ForceNotHoldingGun()
         {
             m_Animator.SetBool(m_HashHoldingGunPara, false);
+        }
+
+        public void CheckForAstralCopyShieldInput()
+        {
+            if (!astralCopyController.IsShieldCooldown)
+            {
+                OnAstralCopyShieldHeld.Invoke(PlayerInput.Instance.AstralCopyShield.Held);
+            }
+        }
+
+        public void CheckForAstralCopyTeleportInput()
+        {
+            if (PlayerInput.Instance.AstralCopyTeleport.Down)
+            {
+                OnAstralCopyTeleportDown.Invoke(true);
+            }
         }
 
         public void EnableInvulnerability()
